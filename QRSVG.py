@@ -21,10 +21,15 @@ def QRSVG(d):
   rn = zeros(d);rsv = zeros(d, dtype = complex)
   rpv = Qrpv_zhsl(d)
   tpi = 2.0*pi
+  from QRNG import GetAnysizeArray
+  rn=GetAnysizeArray(d)
   for j in range(0,d):
-    rn[j] = QRNG();  arg = tpi*rn[j];  ph = cos(arg) + (1j)*sin(arg)
+    arg = tpi*rn[j]
+    ph = cos(arg) + (1j)*sin(arg)
     rsv[j] = sqrt(rpv[j])*ph
   return rsv
 #--------------------------------------------------
-print QRSVG(10)
 #test()
+#print (QRSVG(10))
+tal=sum(QRSVG(10))
+print (tal)

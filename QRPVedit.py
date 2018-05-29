@@ -1,10 +1,9 @@
 import numpy as np
-from QRNG import QRNG
+from QRNG import GetAnysizeArray
 #------------------------------------------------------------------------------------
 def Qrpv_zhsl(d):
   rn = np.zeros(d-1)
-  for j in range(0,d-1):
-    rn[j] = QRNG()
+  rn=GetAnysizeArray(d-1)
   rpv = np.zeros(d)
   rpv[0] = 1.0 - rn[0]**(1.0/(d-1.0))
   norm = rpv[0]
@@ -15,9 +14,11 @@ def Qrpv_zhsl(d):
   rpv[d-1] = 1.0 - norm
   return rpv
 #------------------------------------------------------------------------------------
-
-#print Qrpv_zhsl(10)
-
+def testinho(d):
+    a=Qrpv_zhsl(d)
+    print(a)
+    b=sum(a)
+    print (b)
 #------------------------------------------------------------------------------------
 def test():
   d = 3

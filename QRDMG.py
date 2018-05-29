@@ -1,20 +1,25 @@
+import math
 #------------------------------------------------------------------------------------------------------------------------------------
 def test():
-  from numpy import random, zeros;  random.seed()
-  from coherence import coh_l1n, coh_re
-  ns = 10**3 # number of samples for the average
-  nqb = 5 # maximum number of qubits regarded
-  Cavg = zeros(nqb);  d = zeros(nqb, dtype = int)
-  for j in range(0,nqb):
-    d[j] = 2**(j+1);  rdm = zeros((d[j],d[j]), dtype = complex)
-    Cavg[j] = 0.0
-    for k in range(0,ns):
-      rdm = rdm_ginibre(d[j]);  Cavg[j] = Cavg[j] + coh_re(d[j], rdm)
-    Cavg[j] = Cavg[j]/ns
-  import matplotlib.pyplot as plt
-  plt.plot(d, Cavg, label = '')
-  plt.xlabel('d');  plt.ylabel('C');  plt.legend()
-  plt.show()
+    import numpy as np
+    import matplotlib.pyplot as plt
+    #from numpy import random, zeros;
+    np.random.seed()
+    from coherence import coh_l1n, coh_re
+    ns = 10**3 # number of samples for the average
+    nqb = 5 # maximum number of qubits regarded
+    Cavg = np.zeros(nqb);  d = np.zeros(nqb, dtype = int)
+    for j in range(0,nqb):
+        d[j] = 2**(j+1);  rdm = np.zeros((d[j],d[j]), dtype = complex)
+        Cavg[j] = 0.0
+        for k in range(0,ns):
+            rdm = rdm_ginibre(d[j])
+            Cavg[j] = Cavg[j] + coh_re(d[j], rdm)
+            Cavg[j] = Cavg[j]/ns
+
+    plt.plot(d, Cavg, label = '')
+    plt.xlabel('d');  plt.ylabel('C');  plt.legend()
+    plt.show()
 #------------------------------------------------------------------------------------------------------------------------------------
 def rdm_ginibre(d):
   from numpy import zeros;  rdm = zeros((d,d), dtype = complex);  G = ginibre(d)
@@ -29,10 +34,13 @@ def rdm_ginibre(d):
   return rdm
 #------------------------------------------------------------------------------------------------------------------------------------
 def ginibre(d):
-  from numpy import random, zeros;  G = zeros((d,d), dtype = complex);  mu, sigma = 0.0, 1.0
+  from QRNG import QRNGGaussian
+  from numpy import zeros
+  G = zeros((d,d), dtype = complex);
   for j in range(0,d):
-    grn = random.normal(mu, sigma, 2*d)
+    grn = QRNGGaussian(2*d)
     for k in range(0,d):
       G[j][k] = grn[k] + (1j)*grn[k+d]
   return G
 #------------------------------------------------------------------------------------------------------------------------------------
+test()
