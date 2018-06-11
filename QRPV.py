@@ -6,13 +6,13 @@ def Qrpv_zhsl(d):
   for j in range(0,d-1):
     rn[j] = QRNG()
   rpv = np.zeros(d)
-  rpv[0] = 1.0 - rn[0]**(1.0/(d-1.0))
+  rpv[0] = 1.0 - rn[0]**(1.0/(d-1.0)) # linha para gerar o p1
   norm = rpv[0]
   if d > 2:
-    for j in range(1,d-1):
+    for j in range(1,d-1):            # Loop para gerar do segundo ao penúltimo
       rpv[j] = (1.0 - rn[j]**(1.0/(d-j-1)))*(1.0-norm)
       norm = norm + rpv[j]
-  rpv[d-1] = 1.0 - norm
+  rpv[d-1] = 1.0 - norm               # Linha para gerar a última probabilidade
   return rpv
 #------------------------------------------------------------------------------------
 
