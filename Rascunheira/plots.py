@@ -25,14 +25,13 @@ def plotBar():
     plt.ylabel('y')
     plt.legend()
     plt.show()
-#-----------------------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------------------    
 def plotHistogram():
-    populationAges = [22, 55, 62, 45, 21, 22, 34, 42, 42, 4, 99, 102, 55,
-                      44, 66, 77, 33, 22, 99, 88, 77, 66, 55, 44, 33, 11, 23, 45, 67, 89]
+    populationAges = [22,55,62,45,21,22,34,42,42,4,99,102,55,44,66,77,33,22,99,88,77,66,55,44,33,11,23,45,67,89]
     #ids = [x for x in range(len(populationAges))]
-    # plt.bar(ids,populationAges)
-    bins = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110]
-    plt.hist(populationAges, bins, histtype='bar', rwidth=0.8)
+    #plt.bar(ids,populationAges)
+    bins = [0,10,20,30,40,50,60,70,80,90,100,110]
+    plt.hist(populationAges, bins, histtype = 'bar', rwidth = 0.8)
     plt.xlabel('x')
     plt.ylabel('y')
     plt.legend()
@@ -41,31 +40,9 @@ def plotHistogram():
 def plotScatter(x,y):
     #x = [1,2,3,4,5,6,7,8]
     #y = [3,5,6,7,5,4,3,4]
-    plt.scatter(x,y, label='Random Number', color='blue', s=1, marker='*')
-    #plt.xlabel('x')
-    #plt.ylabel('y')
-    plt.legend()
-    plt.show()
-
-#-----------------------------------------------------------------------------------------------------------------------------------
-def plotScatterQ(x,y):
-    #x = [1,2,3,4,5,6,7,8]
-    #y = [3,5,6,7,5,4,3,4]
-    plt.scatter(x,y, label='Quantum Random Number', color='blue', s=1, marker='*')
-    #plt.xlabel('x')
-    #plt.ylabel('y')
-    plt.legend()
-    plt.show()
-
-#-----------------------------------------------------------------------------------------------------------------------------------
-def plotScatter2(x,y1,y2):
-    #x = [1,2,3,4,5,6,7,8]
-    #y = [3,5,6,7,5,4,3,4]
-    plt.title('O resultado converge para zero se as dimensões não estão correlacionadas')
-    plt.scatter(x,y1, label='Quantum Random Number', color='blue',s=50, marker='*')
-    plt.scatter(x,y2, label='Pseudo Random number', color='red',s=50,marker='+')
-    plt.xlabel('Dimensão')
-    plt.ylabel('Resultado do teste')
+    plt.scatter(x,y, label='scatter', color='blue', s=5, marker='*')
+    plt.xlabel('x')
+    plt.ylabel('y')
     plt.legend()
     plt.show()
 #-----------------------------------------------------------------------------------------------------------------------------------
@@ -98,7 +75,7 @@ def plotPie():
     plt.title('pie chart')
     plt.show()
 #-----------------------------------------------------------------------------------------------------------------------------------
-def plotFiles():
+def plotFiles():    
     '''
     # 1st way
     import csv
@@ -128,7 +105,7 @@ def bytespdate2num(fmt,encoding='utf-8'):
         s = b.decode(encoding)
         return strconverter(s)
     return bytesconverter
-
+    
 def plotInternet(stock):
     stock_price_url = 'http://chartapi.finance.yahoo.com/instrument/1.0/'+stock+'/chartdata;type=quote;range=10y/csv'
     source_code = urllib.request.urlopen(stock_price_url).read().decode()
@@ -139,8 +116,8 @@ def plotInternet(stock):
         if len(split_line) == 6:
             if 'values' not in line and 'labels' not in line:
                 stock_data.append(line)
-    date, closep, highp, lowp, openp, volume = np.loadtxt(stock_data,
-							  delimiter=',',
+    date, closep, highp, lowp, openp, volume = np.loadtxt(stock_data, 
+							  delimiter=',', 
 							  unpack=True,
 							  # %Y = full year. 2015
 							  # %y = partial year. 15
@@ -160,16 +137,16 @@ def plotInternet(stock):
 def plotCustomize():
     x = [1,2,3,4,5,6,7,8]
     y = [3,5,6,7,5,4,3,4]
-
+    
     fig = plt.figure()
     # The 1st tuple is for how many plots. The 2nd is for the origin.
     ax1 = plt.subplot2grid((1,1),(0,0))
-
+    
     ax1.scatter(x,y, label='scatter', color='blue', s=300, marker='*')
     for label in ax1.xaxis.get_ticklabels():
         label.set_rotation(45)  # this rotates the label
     ax1.grid(True, color='g', linestyle='-', linewidth=0.5)
-
+    
     plt.xlabel('x')
     plt.ylabel('y')
     plt.legend()

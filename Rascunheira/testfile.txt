@@ -1,0 +1,6 @@
+Hello World This is our new text fileand this is another line.Why? Because we can
+com o vetor de amplitude de probabilidades, faça o seguinte:
+1) calcula o quadradado de cada elemento do vetor
+2) soma todos esses quadrados
+3) calcula a raíz quadrada dessa soma: esse resultado é a norma
+4) divide cada elemento do vetor pela norma
