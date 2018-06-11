@@ -23,7 +23,7 @@ def GetRandomArray(dim):
     url1 = 'https://qrng.anu.edu.au/API/jsonI.php?length='
     url2 = '&type=uint16'
     url = url1+d+url2
-    page = urllib.request.urlopen(url, timeout=100)
+    page = urllib.request.urlopen(url, timeout=100000)
     aux = page.read()
     data = json.loads(aux.decode('utf-8'))
     num = data.get("data", "none")
@@ -130,3 +130,10 @@ def TestPRNG(d,dmax):       # Programa que plota os testes do gerador Mersene Tw
     result2=[simplePRNGtest(i) for i in range(d,dmax)]
     x=Contador(d,dmax)
     plotScatter2(x,result1,result2)
+
+def salvamento():
+    A=GetAnysizeArray(10000000)
+    with open("file.txt", 'w') as f:
+        for s in A:
+            f.write(str(s) + '\n')
+salvamento()
