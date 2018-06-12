@@ -34,12 +34,13 @@ def rdm_ginibre(d):
   return rdm
 #------------------------------------------------------------------------------------------------------------------------------------
 def ginibre(d):
-  from QRNG import QRNGGaussian
+  from QRNG import DataQRN
   from numpy import zeros
   G = zeros((d,d), dtype = complex);
   for j in range(0,d):
-    grn = QRNGGaussian(2*d)
+    grn = DataQRN(2*d)
     for k in range(0,d):
       G[j][k] = grn[k] + (1j)*grn[k+d]
   return G
 #------------------------------------------------------------------------------------------------------------------------------------
+test()

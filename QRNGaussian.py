@@ -11,10 +11,18 @@ def QRNGGaussian(d):
         x[i]=np.sqrt(-2*math.log(D[i+1]))*math.cos(2*math.pi*D[i])
         x[i+1]=np.sqrt(-2*math.log(D[i+1]))*math.sin(2*math.pi*D[i])
     return x
-
+#------------------------------------------------------------------------------
+def DataQRN(d):
+    import numpy as np
+    a=np.genfromtxt("QN.txt")
+    b=a[:d]
+    return b
+print(DataQRN(10))
+#------------------------------------------------------------------------------
 def PRNGGaussian(d):
     import math; import random as rd; import numpy as np
-    D=[rd.random() for i in range (0,d)]
+    #D=[rd.random() for i in range (0,d)]
+    D=DataQRN(d)
     x=np.zeros(d,dtype = complex)
     for i in range(0,d,2):
         x[i]=np.sqrt(-2*math.log(D[i+1]))*math.cos(2*math.pi*D[i])
@@ -22,7 +30,8 @@ def PRNGGaussian(d):
     return x
 #------------------------------------------------------------------------------
 def plotHistogram(x):
-    import matplotlib.pyplot    as plt
+
+    import matplotlib.pyplot as plt
     #bins = [-2.5,-2.25, -2,-1.75,-1.5, -1.25, -1,-0.75, -0.5,-0.25,-0.2,-0.18,;
         #-0.16,-0.14,-0.12,-0.10,-0.05, 0,0.05,0.1,0.12,0.14,0.16,0.18,0.2,0.25, 0.5;
         #0.75,1.0,1.25,1.5,1.75,2,2.25,2.5]
@@ -38,9 +47,9 @@ def Ptest(d):
     x=np.random.normal(0.0,1.0,2*100)
     from plots import plotScatter
     plotHistogram(x)
-Ptest(10000)
+#Ptest(10000)
 
 def QTest(d):
     x=QRNGGaussian(d)
     plotHistogram(x)
-QTest(2040)
+QTest(204)
