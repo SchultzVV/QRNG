@@ -1,10 +1,9 @@
 import numpy as np
-from QRNG import QRNG
+from QRNG import GetAnysizeArrayNormalized
 #------------------------------------------------------------------------------------
 def Qrpv_zhsl(d):
   rn = np.zeros(d-1)
-  for j in range(0,d-1):
-    rn[j] = QRNG()
+  rn=GetAnysizeArrayNormalized(d)
   rpv = np.zeros(d)
   rpv[0] = 1.0 - rn[0]**(1.0/(d-1.0)) # linha para gerar o p1
   norm = rpv[0]
@@ -48,3 +47,4 @@ def test():
   axes = plt.gca();  axes.set_xlim([0,1]);  axes.set_ylim([0,0.1])
   plt.xlabel('pj');  plt.ylabel('');  plt.legend();  plt.show()
 #------------------------------------------------------------------------------------
+test()
