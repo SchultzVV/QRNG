@@ -1,6 +1,7 @@
 import urllib.request
 import numpy as np
 import json
+from plots import plotScatter
 from plots import plotScatter2
 from plots import plotHistogram
 #------------------------------------------------------------------------------------
@@ -119,21 +120,16 @@ def QRNGtest2(d):
     y = GetAnysizeArray(d)
     return plotScatter(x,y)
 #------------------------------------------------------------------------------------
-def TestQRNG(d,dmax):       # Programa que plota os testes do gerador ANU
+def TestQandPRNG(d,dmax):       # Programa que plota os testes do gerador ANU
     result1=[simpleQRNGtest(i) for i in range(d,dmax)]
-    result2=[simpleQRNGtest(i) for i in range(d,dmax)]
+    #result2=[simpleQRNGtest(i) for i in range(d,dmax)]
+    result2=[simplePRNGtest(i) for i in range(d,dmax)]
     x=Contador(d,dmax)
     plotScatter2(x,result1,result2)
 #------------------------------------------------------------------------------------
 def TestPRNG(d,dmax):       # Programa que plota os testes do gerador Mersene Twister
     result1=[simplePRNGtest(i) for i in range(d,dmax)]
-    result2=[simplePRNGtest(i) for i in range(d,dmax)]
+    #result2=[simplePRNGtest(i) for i in range(d,dmax)]
     x=Contador(d,dmax)
-    plotScatter2(x,result1,result2)
-
-def salvamento():
-    A=GetAnysizeArray(10000000)
-    with open("file.txt", 'w') as f:
-        for s in A:
-            f.write(str(s) + '\n')
-salvamento()
+    plotScatter(x,result1)
+TestPRNG(1,10000000)
