@@ -127,3 +127,19 @@ def TestPRNG(d,dmax):       # Programa que plota os testes do gerador Mersene Tw
     #result2=[simplePRNGtest(i) for i in range(d,dmax)]
     x=Contador(d,dmax)
     plotScatter(x,result1)
+#------------------------------------------------------------------------------------
+def QRNbetweenZeroAndOne(d):
+    data= np.genfromtxt("QN.txt",dtype=int)
+    print (data)
+    aux=[65535 for i in range(0,d)]
+    F=[data[i]/aux[i]for i in range(0,d)]
+    print(sum(F))
+    return F
+#------------------------------------------------------------------------------------
+def GetQRNnormalized(d):
+    D=np.genfromtxt("QN.txt",dtype=int)
+    aux=[sum(D)for i in range(0,d)]
+    F=[D[i]/aux[i]for i in range(0,d)]
+    print(sum(F))
+    return F
+print(GetQRNnormalized(2000))
