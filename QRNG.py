@@ -1,9 +1,4 @@
-import urllib.request
-import numpy as np
-import json
-from plots import plotScatter
-from plots import plotScatter2
-from plots import plotHistogram
+import urllib.request;import numpy as np;import json;from plots import plotScatter;from plots import plotScatter2;from plots import plotHistogram
 #------------------------------------------------------------------------------------
 def GetAnysizeArray(dim):
    if dim <= 1024:
@@ -71,7 +66,7 @@ def GetAnysizeArrayNormalized(d): # Faz a soma de todos as componentes = 1
     D=GetAnysizeArray(d)
     aux=[sum(D)for i in range(0,d)]
     F=[D[i]/aux[i]for i in range(0,d)]
-    G=sum(F)
+    return F
 #------------------------------------------------------------------------------------
 def simplePRNGtest(d):
     import random          #OPÇÃO NUMERO 2
@@ -120,7 +115,7 @@ def QRNGtest2(d):
     y = GetAnysizeArray(d)
     return plotScatter(x,y)
 #------------------------------------------------------------------------------------
-def TestQandPRNG(d,dmax):       # Programa que plota os testes do gerador ANU
+def CorTestQandPRNG(d,dmax):       # Programa que plota os testes do gerador ANU e MT
     result1=[simpleQRNGtest(i) for i in range(d,dmax)]
     #result2=[simpleQRNGtest(i) for i in range(d,dmax)]
     result2=[simplePRNGtest(i) for i in range(d,dmax)]
@@ -132,4 +127,3 @@ def TestPRNG(d,dmax):       # Programa que plota os testes do gerador Mersene Tw
     #result2=[simplePRNGtest(i) for i in range(d,dmax)]
     x=Contador(d,dmax)
     plotScatter(x,result1)
-TestPRNG(1,10000000)
