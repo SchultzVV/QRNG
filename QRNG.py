@@ -1,8 +1,4 @@
-import urllib.request
-import numpy as np
-import json
-from plots import plotScatter2
-from plots import plotHistogram
+import urllib.request;import numpy as np;import json;from plots import plotScatter;from plots import plotScatter2;from plots import plotHistogram
 #------------------------------------------------------------------------------------
 def GetAnysizeArray(dim):
    if dim <= 1024:
@@ -70,7 +66,7 @@ def GetAnysizeArrayNormalized(d): # Faz a soma de todos as componentes = 1
     D=GetAnysizeArray(d)
     aux=[sum(D)for i in range(0,d)]
     F=[D[i]/aux[i]for i in range(0,d)]
-    G=sum(F)
+    return F
 #------------------------------------------------------------------------------------
 def simplePRNGtest(d):
     import random          #OPÇÃO NUMERO 2
@@ -119,21 +115,50 @@ def QRNGtest2(d):
     y = GetAnysizeArray(d)
     return plotScatter(x,y)
 #------------------------------------------------------------------------------------
-def TestQRNG(d,dmax):       # Programa que plota os testes do gerador ANU
+def CorTestQandPRNG(d,dmax):       # Programa que plota os testes do gerador ANU e MT
     result1=[simpleQRNGtest(i) for i in range(d,dmax)]
-    result2=[simpleQRNGtest(i) for i in range(d,dmax)]
+    #result2=[simpleQRNGtest(i) for i in range(d,dmax)]
+    result2=[simplePRNGtest(i) for i in range(d,dmax)]
     x=Contador(d,dmax)
     plotScatter2(x,result1,result2)
 #------------------------------------------------------------------------------------
 def TestPRNG(d,dmax):       # Programa que plota os testes do gerador Mersene Twister
     result1=[simplePRNGtest(i) for i in range(d,dmax)]
-    result2=[simplePRNGtest(i) for i in range(d,dmax)]
+    #result2=[simplePRNGtest(i) for i in range(d,dmax)]
     x=Contador(d,dmax)
-    plotScatter2(x,result1,result2)
-
-def salvamento():
-    A=GetAnysizeArray(10000000)
-    with open("file.txt", 'w') as f:
-        for s in A:
-            f.write(str(s) + '\n')
-salvamento()
+    plotScatter(x,result1)
+#------------------------------------------------------------------------------------
+def QRNbetweenZeroAndOne(d):
+    data= np.genfromtxt("QN.txt",dtype=int)
+    aux=[65535 for i in range(0,d)]
+    F=[data[i]/aux[i]for i in range(0,d)]
+    return F
+#------------------------------------------------------------------------------------
+def read0to1Data(d,int):
+    data= np.genfromtxt("QNnormalized.txt",dtype=float)
+    k=np.zeros(d)
+    aux=int*d
+    aux2=(int+1)*d
+    k=[float(data[i])for i in range(aux,aux2)]
+    return k
+#------------------------------------------------------------------------------------
+def GetQRNnormalized():
+    D=np.genfromtxt("QN.txt",dtype=int)
+    a=len(D)
+    norma=np.sum(D)
+    aux=[int(65535) for i in range(0,a)]
+    F=[D[i]/aux[i]for i in range(0,a)]
+    with open("QNnormalized.txt", 'w') as f:
+        for a in F:
+            f.write(str(a) + '\n')
+    return F
+def GetQRNnormalized2():
+    D=np.genfromtxt("QN.txt",dtype=int)
+    a=len(D)
+    aux=[int(65535) for i in range(0,a)]
+    F=[D[i]/aux[i]for i in range(0,a)]
+    with open("QNnormalized.txt", 'w') as f:
+        for a in F:
+            f.write(str(a) + '\n')
+    return F
+GetQRNnormalized2()
