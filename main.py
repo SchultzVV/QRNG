@@ -45,26 +45,6 @@ def StoragedQRSVG(d,int):
   return rsv,l
 #print(StoragedQRSVG(50,3))
 #------------------------------------------------------------------------------------
-'''def test():
-  l=0
-  ns = 10**3 # number of samples for the average
-  nqb = 5 # maximum number of qubits regarded
-  Favg = np.zeros(nqb);  Fexa = np.zeros(nqb);  d = np.zeros(nqb, dtype = int)
-  for j in range(0,nqb):
-    d[j] = 2**(j+1);  psi = np.zeros(d[j], dtype = complex);  phi = np.zeros(d[j], dtype = complex)
-    Fexa[j] = 1.0/d[j]
-    Favg[j] = 0.0
-    for k in range(0,ns):
-        psi = StoragedQRSVG(d[j],l)
-        l=+1
-        phi = StoragedQRSVG(d[j],l)
-        l=+1
-        Favg[j] = Favg[j] + fidelity_pp(psi, phi)
-    Favg[j] = Favg[j]/ns
-  import matplotlib.pyplot as plt
-  plt.plot(d, Favg, label = '<F>');  plt.plot(d, Fexa, label = 'F')
-  plt.xlabel('d');  plt.ylabel('F');  plt.legend()
-  plt.show()'''
 def test():
   from distances import fidelity_pp;  from numpy import zeros;  from math import sqrt
   ns = 10**1 # number of samples for the average
