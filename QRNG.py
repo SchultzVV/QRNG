@@ -142,7 +142,7 @@ def QRNGtest2(d):
     return plotScatter(x,y)          # Teste de distribuição de pontos aleatórios
 #------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------
-# A PARTIR DAQUI É UTILIZANDO O ARQUIVO txt
+#  A PARTIR DAQUI É UTILIZANDO O ARQUIVO txt
 #------------------------------------------------------------------------------------
 def QRNbetweenZeroAndOne(d):
     data= np.genfromtxt("QN.txt",dtype=int)
@@ -160,11 +160,37 @@ def read0to1Data(d,int):      # Versão pronta
 #print(read0to1Data(10,0))
 #-----------------------------------------------------------------------------------
 def SaveQRNnormalized():
-    D=np.genfromtxt("QN9.dat",dtype=int)
+    D=np.genfromtxt("QN8.dat",dtype=int)
     a=len(D)
     aux=[int(65535) for i in range(0,a)]
     F=[D[i]/aux[i]for i in range(0,a)]
-    with open("QN9normalized.txt", 'w') as f:
+    with open("QN8normalized.txt", 'w') as f:
         for a in F:
             f.write(str(a) + '\n')
 #SaveQRNnormalized()
+#------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------------
+# WANTED TO CREATE THE RUG AND RDMG
+#------------------------------------------------------------------------------------
+data= np.genfromtxt("QNnormalized.txt",dtype=float)
+def strgQRNGGaussian(d,int):
+    import math
+    D=read0to1Data(d,int)
+    x=np.zeros(d,dtype = complex)
+    for i in range(0,d,2):
+        x[i]=np.sqrt(-2*math.log(D[i+1]))*math.cos(2*math.pi*D[i])
+        x[i+1]=np.sqrt(-2*math.log(D[i+1]))*math.sin(2*math.pi*D[i])
+    return x
+#print(strgQRNGGaussian(6,1))
+#------------------------------------------------------------------------------------
+def StrgQginibre(d):
+  from QRNG import QRNGGaussian
+  from numpy import zeros
+  G = zeros((d,d), dtype = complex);
+  for j in range(0,d):
+    int=j
+    grn = strgQRNGGaussian(2*d,int)
+    for k in range(0,d):
+      G[j][k] = grn[k] + (1j)*grn[k+d]
+  return G
+print(StrgQginibre(5))
