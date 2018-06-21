@@ -47,18 +47,10 @@ def gram_schmidt_modified(d, G):
 #------------------------------------------------------------------------------------------------------------------------------------
 # Returns a dxd random unitary matrix by applying the Gram-Schmidt procedure to a random gaussian complex matrix
 def ru_gram_schmidt(d):
-  from QRNG import Qginibre;  G = Qginibre(d);   ru = gram_schmidt_modified(d, G)
+  from QRNG import Qginibre;  G = StrgQginibre(d);   ru = gram_schmidt_modified(d, G)
   return ru
 #------------------------------------------------------------------------------------------------------------------------------------
 # Returns, in the coloumns of B, an orthonormal basis obtained from linearly independent vectors given as imput in the columns of A
-def gram_schmidt_modified(d, G):
-  from distances import norm, inner;from numpy import zeros;  B = zeros((d,d), dtype = complex)
-  for j in range(0, d):
-    B[:][j] = G[:][j]/norm(d,G[:][j])
-    if j < (d-1):
-      for k in range(j+1,d):
-        G[:][k] = G[:][k] - inner(d,B[:][j],G[:][k])*B[:][j]
-  return B
 #------------------------------------------------------------------------------------------------------------------------------------
 def test():
   from numpy import linalg, sort, zeros;  from math import pi;  from cmath import phase
@@ -86,4 +78,5 @@ def test():
   import matplotlib.pyplot as plt
   plt.plot(x,y1,label='ev');  plt.plot(x,y2,label='sp');  plt.xlabel('');  plt.ylabel('y')
   axes = plt.gca();  axes.set_xlim([0,2.5]);  axes.set_ylim([0,0.065]);  plt.legend();  plt.show()
+test()
 #------------------------------------------------------------------------------------------------------------------------------------

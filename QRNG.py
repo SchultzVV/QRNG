@@ -136,19 +136,41 @@ def TestPRNG(d,dmax):       # Programa que plota os testes do gerador Mersene Tw
     x=Contador(d,dmax)
     plotScatter(x,result1)
 #------------------------------------------------------------------------------------
+def PRNGtest2(d):
+    import random as rd
+    x = [rd.random() for i in range(0,d)]
+    y = [rd.random() for i in range(0,d)]
+    return plotScatter(x,y)          # Teste de distribuição de pontos aleatórios
+#PRNGtest2(1800000)
+#------------------------------------------------------------------------------------
 def QRNGtest2(d):
     x = GetAnysizeArray(d)
     y = GetAnysizeArray(d)
     return plotScatter(x,y)          # Teste de distribuição de pontos aleatórios
+#QRNGtest2(1500)
 #------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------
 #  A PARTIR DAQUI É UTILIZANDO O ARQUIVO txt
 #------------------------------------------------------------------------------------
+#data= np.genfromtxt("QNnormalized.txt",dtype=float)
 def QRNbetweenZeroAndOne(d):
     data= np.genfromtxt("QN.txt",dtype=int)
     aux=[65535 for i in range(0,d)]
     F=[data[i]/aux[i]for i in range(0,d)]
     return F # Versão 1.0 do read0to1Data
+#------------------------------------------------------------------------------------
+def QRNGtest2(d):# Teste de distribuição de pontos aleatórios
+    import matplotlib.pyplot    as plt
+    x = [data[i] for i in range(0,d)]
+    a=d
+    y = [data[i] for i in range(a,a+d)]
+    plt.scatter(x,y,c='black', s=1, marker='*')
+    plt.title('Distribuição de pontos Aleatórios')
+    #plt.xlabel('x')
+    #plt.ylabel('y')
+    plt.legend()
+    plt.show()(x,y)
+#QRNGtest2(1800000)
 #------------------------------------------------------------------------------------
 def read0to1Data(d,int):      # Versão pronta
     #data= np.genfromtxt("QNnormalized.txt",dtype=float)
@@ -172,7 +194,7 @@ def SaveQRNnormalized():
 #------------------------------------------------------------------------------------
 # WANTED TO CREATE THE RUG AND RDMG
 #------------------------------------------------------------------------------------
-data= np.genfromtxt("QNnormalized.txt",dtype=float)
+
 def strgQRNGGaussian(d,int):
     import math
     D=read0to1Data(d,int)
@@ -193,4 +215,4 @@ def StrgQginibre(d):
     for k in range(0,d):
       G[j][k] = grn[k] + (1j)*grn[k+d]
   return G
-print(StrgQginibre(5))
+#print(StrgQginibre(5))
