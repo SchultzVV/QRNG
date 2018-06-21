@@ -1,8 +1,17 @@
-import urllib.request
-import numpy as np
-import json
-from plots import plotScatter2
-from plots import plotHistogram
+import urllib.request;import numpy as np;import json;from plots import plotScatter;from plots import plotScatter2;from plots import plotHistogram
+#------------------------------------------------------------------------------------
+def GetRandomArray(dim):
+    d=str(dim)
+    url1 = 'https://qrng.anu.edu.au/API/jsonI.php?length='
+    url2 = '&type=uint16'
+    url = url1+d+url2
+    page = urllib.request.urlopen(url, timeout=100000)
+    aux = page.read()
+    data = json.loads(aux.decode('utf-8'))
+    num = data.get("data", "none")
+    return num   # Programa que comunica com o site e recebe os dados
+#print("GetRandomArray(12)")
+#print(GetRandomArray(12))
 #------------------------------------------------------------------------------------
 def GetAnysizeArray(dim):
    if dim <= 1024:
@@ -17,30 +26,25 @@ def GetAnysizeArray(dim):
        else:
            large.extend(GetRandomArray(m))
            return large  # Gera um array de qualquer tamanho com os dados do site
-#------------------------------------------------------------------------------------
-def GetRandomArray(dim):
-    d=str(dim)
-    url1 = 'https://qrng.anu.edu.au/API/jsonI.php?length='
-    url2 = '&type=uint16'
-    url = url1+d+url2
-    page = urllib.request.urlopen(url, timeout=100000)
-    aux = page.read()
-    data = json.loads(aux.decode('utf-8'))
-    num = data.get("data", "none")
-    return num   # Programa que comunica com o site e recebe os dados
+#print("GetAnysizeArray(12)")
+#print(GetAnysizeArray(12))
 #------------------------------------------------------------------------------------
 def QRNG():
     a=float(GetRandomArray(1)[0])
     b=float(a/65535)
     return b                # Programa que gera 1 valor normalizado
 #------------------------------------------------------------------------------------
+def GetAnysizeRandomArray(d): # Faz um array entre 0 e 1 do servidor ANU
+    D=GetAnysizeArray(d)
+    F=[D[i]/int(65535)for i in range(0,d)]
+    return F
+#print("GetAnysizeRandomArray(12)")
+#print(GetAnysizeRandomArray(12))
+#print("Sum(GetAnysizeRandomArray(12))=",sum(GetAnysizeRandomArray(12)))
+#------------------------------------------------------------------------------------
 def QRNGGaussian(d):
     import math
-    D=GetAnysizeArray(d)
-    aux=np.zeros(d)
-    for i in range(0,d):    # Looping para limitar o vetor entre [0,1)
-        aux[i]=65535        # O teste requer valores neste intervalo...
-    D=D/aux
+    D=GetAnysizeRandomArray(d)
     x=np.zeros(d,dtype = complex)
     for i in range(0,d,2):
         x[i]=np.sqrt(-2*math.log(D[i+1]))*math.cos(2*math.pi*D[i])
@@ -70,9 +74,13 @@ def GetAnysizeArrayNormalized(d): # Faz a soma de todos as componentes = 1
     D=GetAnysizeArray(d)
     aux=[sum(D)for i in range(0,d)]
     F=[D[i]/aux[i]for i in range(0,d)]
-    G=sum(F)
+    return F
+#print("GetAnysizeArrayNormalized(12)")
+#print(GetAnysizeArrayNormalized(12))
+#print("Sum(GetAnysizeArrayNormalized(12))=",sum(GetAnysizeArrayNormalized(12)))
+
 #------------------------------------------------------------------------------------
-def simplePRNGtest(d):
+def correlacaoPRNGtest(d):
     import random          #OPÇÃO NUMERO 2
     D=[random.random() for i in range(0,d)]    #OPÇÃO NUMERO 2
     aux=np.zeros(d)
@@ -85,10 +93,10 @@ def simplePRNGtest(d):
     b2sum=np.sum(b2)
     D2=b2sum/b
     result=D2-e
-    return result     # Teste que mostra a distribuição gaussiana para PRN
+    return result     # Teste que mostra a distribuição gaussiana para PRN # Teste de Correlação Simples
 #------------------------------------------------------------------------------------
-def simpleQRNGtest(d):
-    D=GetAnysizeArray(d)   #OPÇÃO NUMERO 1
+def correlacaoQRNGtest(d):
+    D=GetAnysizeArray(d)
     aux=np.zeros(d)
     squareD=np.zeros(d)
     for i in range(0,d):    # Looping para limitar o vetor entre [0,1)
@@ -103,7 +111,7 @@ def simpleQRNGtest(d):
     b2sum=np.sum(b2)
     D2=b2sum/b              # Essa é a primeira parte da equalção
     result=D2-e             # Esse é o resultado que o programa retorna
-    return result     # Teste que mostra a distribuição gaussiana para TRN
+    return result     # Teste que mostra a distribuição gaussiana para TRN # Teste de Correlação Simples
 #------------------------------------------------------------------------------------
 def Contador(d,dmax):       # Programa auxiliar apenas para criar o eixo das
     a=int(dmax-d)           # coordenadas que será usado no gráfico do teste
@@ -114,26 +122,49 @@ def Contador(d,dmax):       # Programa auxiliar apenas para criar o eixo das
         x[i]=z
     return x
 #------------------------------------------------------------------------------------
-def QRNGtest2(d):
-    x = GetAnysizeArray(d)
-    y = GetAnysizeArray(d)
-    return plotScatter(x,y)
-#------------------------------------------------------------------------------------
-def TestQRNG(d,dmax):       # Programa que plota os testes do gerador ANU
-    result1=[simpleQRNGtest(i) for i in range(d,dmax)]
-    result2=[simpleQRNGtest(i) for i in range(d,dmax)]
+def CorTestQandPRNG(d,dmax):# plot do Teste de Correlação Simples
+    result1=[correlacaoQRNGtest(i) for i in range(d,dmax)]
+    #result2=[correlacaoQRNGtest(i) for i in range(d,dmax)]
+    result2=[correlacaoPRNGtest(i) for i in range(d,dmax)]
     x=Contador(d,dmax)
     plotScatter2(x,result1,result2)
+#CorTestQandPRNG(1,150)
 #------------------------------------------------------------------------------------
 def TestPRNG(d,dmax):       # Programa que plota os testes do gerador Mersene Twister
     result1=[simplePRNGtest(i) for i in range(d,dmax)]
-    result2=[simplePRNGtest(i) for i in range(d,dmax)]
+    #result2=[simplePRNGtest(i) for i in range(d,dmax)]
     x=Contador(d,dmax)
-    plotScatter2(x,result1,result2)
-
-def salvamento():
-    A=GetAnysizeArray(10000000)
-    with open("file.txt", 'w') as f:
-        for s in A:
-            f.write(str(s) + '\n')
-salvamento()
+    plotScatter(x,result1)
+#------------------------------------------------------------------------------------
+def QRNGtest2(d):
+    x = GetAnysizeArray(d)
+    y = GetAnysizeArray(d)
+    return plotScatter(x,y)          # Teste de distribuição de pontos aleatórios
+#------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------------
+# A PARTIR DAQUI É UTILIZANDO O ARQUIVO txt
+#------------------------------------------------------------------------------------
+def QRNbetweenZeroAndOne(d):
+    data= np.genfromtxt("QN.txt",dtype=int)
+    aux=[65535 for i in range(0,d)]
+    F=[data[i]/aux[i]for i in range(0,d)]
+    return F # Versão 1.0 do read0to1Data
+#------------------------------------------------------------------------------------
+def read0to1Data(d,int):      # Versão pronta
+    #data= np.genfromtxt("QNnormalized.txt",dtype=float)
+    k=np.zeros(d)
+    aux=int*d
+    aux2=(int+1)*d
+    k=[float(data[i])for i in range(aux,aux2)]
+    return k
+#print(read0to1Data(10,0))
+#-----------------------------------------------------------------------------------
+def SaveQRNnormalized():
+    D=np.genfromtxt("QN9.dat",dtype=int)
+    a=len(D)
+    aux=[int(65535) for i in range(0,a)]
+    F=[D[i]/aux[i]for i in range(0,a)]
+    with open("QN9normalized.txt", 'w') as f:
+        for a in F:
+            f.write(str(a) + '\n')
+#SaveQRNnormalized()
