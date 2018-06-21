@@ -63,4 +63,4 @@ def test():
   plt.xlabel('d');  plt.ylabel('F');  plt.legend()
   plt.show()
 
-test()
+#test()
