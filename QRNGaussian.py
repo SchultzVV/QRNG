@@ -32,7 +32,6 @@ def plotHistogram(x):
     plt.ylabel('y')
     plt.legend()
     plt.show()
-
 def Ptest(d):
     import numpy as np
     x=np.random.normal(0.0,1.0,2*100)

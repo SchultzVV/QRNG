@@ -1,6 +1,8 @@
 import urllib.request
 import numpy as np
 import json
+import sys as s
+import matplotlib.pyplot as plt
 from plots import plotScatter2
 from plots import plotHistogram
 #------------------------------------------------------------------------------------
@@ -117,23 +119,28 @@ def Contador(d,dmax):       # Programa auxiliar apenas para criar o eixo das
 def QRNGtest2(d):
     x = GetAnysizeArray(d)
     y = GetAnysizeArray(d)
-    return plotScatter(x,y)
+    plt.scatter(x,y)
+    plt.show()
+#QRNGtest2(15)
 #------------------------------------------------------------------------------------
 def TestQRNG(d,dmax):       # Programa que plota os testes do gerador ANU
     result1=[simpleQRNGtest(i) for i in range(d,dmax)]
     result2=[simpleQRNGtest(i) for i in range(d,dmax)]
     x=Contador(d,dmax)
-    plotScatter2(x,result1,result2)
+    plt.scatter(x,result1)
+    plt.scatter(x,result2)
+    plt.show()
+#TestQRNG(3,8)
 #------------------------------------------------------------------------------------
 def TestPRNG(d,dmax):       # Programa que plota os testes do gerador Mersene Twister
     result1=[simplePRNGtest(i) for i in range(d,dmax)]
     result2=[simplePRNGtest(i) for i in range(d,dmax)]
     x=Contador(d,dmax)
     plotScatter2(x,result1,result2)
-
-def salvamento():
+#TestPRNG(10,2000)
+def saving():
     A=GetAnysizeArray(10000000)
     with open("file.txt", 'w') as f:
         for s in A:
             f.write(str(s) + '\n')
-salvamento()
+#saving()

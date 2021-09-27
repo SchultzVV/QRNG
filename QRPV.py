@@ -47,4 +47,5 @@ def test():
   plt.plot(x,y3,label='p2')
   axes = plt.gca();  axes.set_xlim([0,1]);  axes.set_ylim([0,0.1])
   plt.xlabel('pj');  plt.ylabel('');  plt.legend();  plt.show()
+test()
 #------------------------------------------------------------------------------------
